@@ -6,19 +6,17 @@ import { Title, List } from './ContactsList.styled';
 export const ContactsList = ({
   title,
   contacts,
-  onFilter,
-  onDelete,
-}) => {
+  }) => {
 
   return (
     <div>
       <Title>{title}</Title>
 
-      <ContactsFilter  onFilter={onFilter} />
+      <ContactsFilter />
 
       <List>
         {contacts.map(item => {
-          return <Contact values={item} key={item.id} onDelete={onDelete} />;
+          return <Contact values={item} key={item.id} />;
         })}
       </List>
     </div>
@@ -28,6 +26,4 @@ export const ContactsList = ({
 ContactsList.propTypes = {
   title: PropTypes.string.isRequired,
   contacts: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired,
-  onFilter: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
 };

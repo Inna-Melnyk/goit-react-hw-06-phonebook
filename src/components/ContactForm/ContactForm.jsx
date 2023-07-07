@@ -11,6 +11,9 @@ import {
   SubmitBtn,
 } from './ContactForm.slyled';
 
+import { addContact } from 'Redux/contactsSlice';
+import { useDispatch } from 'react-redux';
+
 const nameRegex = RegExp(
   /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/
 );
@@ -34,16 +37,22 @@ const ContactSchema = Yup.object().shape({
     .required('Phone is required'),
 });
 
-export const ContactForm = ({ title, onSubmit }) => {
+export const ContactForm = ({ title }) => {
+  const dispatch = useDispatch();
+
   return (
     <Formik
       initialValues={{ name: '', number: '' }}
       validationSchema={ContactSchema}
       onSubmit={(values, { resetForm }) => {
-        onSubmit({
+       
+        const contact = {
           id: nanoid(),
           ...values,
-        });
+        };
+        
+        dispatch(addContact(contact));
+                   
         resetForm();
       }}
     >
@@ -70,5 +79,4 @@ export const ContactForm = ({ title, onSubmit }) => {
 
 ContactForm.propTypes = {
   title: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired,
 };
